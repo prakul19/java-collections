@@ -9,13 +9,13 @@ public class RemoveDuplicatesPreserveOrder {
         }
 
         List<T> resultList = new ArrayList<>();
-        Set<T> seenElements = new HashSet<>(); // Keeps track of seen elements
+        Set<T> seenElements = new HashSet<>();
 
         try {
             for (T element : inputList) {
                 if (!seenElements.contains(element)) {
                     resultList.add(element); // Add element to result if not seen
-                    seenElements.add(element); // Mark as seen
+                    seenElements.add(element);
                 }
             }
         } catch (Exception e) {
