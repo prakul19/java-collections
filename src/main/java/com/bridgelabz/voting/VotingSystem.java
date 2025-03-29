@@ -3,49 +3,53 @@ package com.bridgelabz.voting;
 import java.util.*;
 
 public class VotingSystem {
-    private Map<String, Integer> voteMap = new HashMap<>();
-    private Map<String, Integer> voteOrderMap = new LinkedHashMap<>();
-    private Map<String, Integer> sortedVoteMap = new TreeMap<>();
+    private Map<String, Integer> voteMap = new HashMap<>(); // Candidate -> Votes
+    private Map<String, Integer> voteOrderMap = new LinkedHashMap<>(); // Maintain vote order
+    private Map<String, Integer> sortedVoteMap = new TreeMap<>(); // Sorted order
 
-    // Cast a vote dynamically
     public void castVote(String candidate) {
         voteMap.put(candidate, voteMap.getOrDefault(candidate, 0) + 1);
         voteOrderMap.put(candidate, voteOrderMap.getOrDefault(candidate, 0) + 1);
         sortedVoteMap.put(candidate, sortedVoteMap.getOrDefault(candidate, 0) + 1);
     }
 
-    // Display votes in HashMap order
-    public void displayVotesHashMap() {
+    public void displayResults() {
         System.out.println("\nVotes in HashMap (No specific order):");
-        for (Map.Entry<String, Integer> entry : voteMap.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue() + " votes");
-        }
-    }
+        voteMap.forEach((key, value) -> System.out.println(key + " -> " + value + " votes"));
 
-    // Display votes in LinkedHashMap order
-    public void displayVotesLinkedHashMap() {
         System.out.println("\nVotes in LinkedHashMap (Vote casting order):");
-        for (Map.Entry<String, Integer> entry : voteOrderMap.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue() + " votes");
-        }
-    }
+        voteOrderMap.forEach((key, value) -> System.out.println(key + " -> " + value + " votes"));
 
-    // Display votes in TreeMap order
-    public void displayVotesTreeMap() {
-        System.out.println("\nVotes in TreeMap (Sorted by candidate name):");
-        for (Map.Entry<String, Integer> entry : sortedVoteMap.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue() + " votes");
-        }
-    }
+        System.out.println("\nVotes in TreeMap (Sorted order):");
+        sortedVoteMap.forEach((key, value) -> System.out.println(key + " -> " + value + " votes"));
 
-    // Display election winner
-    public void displayWinner() {
-        if (voteMap.isEmpty()) {
+        if (!voteMap.isEmpty()) {
+            String winner = Collections.max(voteMap.entrySet(), Map.Entry.comparingByValue()).getKey();
+            System.out.println("\n Winner: " + winner + " with " + voteMap.get(winner) + " votes!");
+        } else {
             System.out.println("\nNo votes cast yet.");
-            return;
         }
-        String winner = Collections.max(voteMap.entrySet(), Map.Entry.comparingByValue()).getKey();
-        int maxVotes = voteMap.get(winner);
-        System.out.println("\n🏆 Winner: " + winner + " with " + maxVotes + " votes!");
+    }
+
+    public static void main(String[] args) {
+        VotingSystem votingSystem = new VotingSystem();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println(" Welcome to the Voting System!");
+        System.out.println("Enter candidate names to vote. Type 'exit' to finish voting.\n");
+
+        while (true) {
+            System.out.print("Enter candidate name: ");
+            String candidate = scanner.nextLine().trim();
+
+            if (candidate.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            votingSystem.castVote(candidate);
+            System.out.println("Vote recorded for " + candidate + "!");
+        }
+        scanner.close();
+        votingSystem.displayResults();
     }
 }
