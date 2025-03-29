@@ -46,7 +46,7 @@ public class InsurancePolicy implements Comparable<InsurancePolicy> {
     public String toString() {
         return "Policy No: " + policyNumber + ", Holder: " + policyholderName +
                 ", Expiry: " + expiryDate + ", Type: " + coverageType +
-                ", Premium: $" + premiumAmount;
+                ", Premium: " + premiumAmount;
     }
 }
 

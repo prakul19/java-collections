@@ -54,7 +54,7 @@ public class InsurancePolicyManager {
 
     // Display all policies
     public void displayAllPolicies() {
-        System.out.println("\n--- All Policies ---");
+        System.out.println("\n All Policies ");
         for (InsurancePolicy policy : orderedPolicyMap.values()) {
             System.out.println(policy);
         }
